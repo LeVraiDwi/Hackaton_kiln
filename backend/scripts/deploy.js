@@ -23,7 +23,7 @@ async function main() {
 
   // Déployer le contrat en passant un argument pour le constructeur
   const valeurInitiale = 42;  // L'argument que tu veux passer au constructeur
-  const contrat = await MonContrat.deploy('0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199', '0xdD2FD4581271e230360230F9337D5c0430Bf44C0', '0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', 1, 2);
+  const contrat = await MonContrat.deploy('0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199', '0xdD2FD4581271e230360230F9337D5c0430Bf44C0', '0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', 1, 0);
 
   console.log("Contrat déployé à l'adresse :", contrat.address);
 }

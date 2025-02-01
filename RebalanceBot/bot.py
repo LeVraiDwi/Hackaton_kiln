@@ -19,16 +19,19 @@ def main():
     web3 = Web3(Web3.HTTPProvider('http://localhost:8545/'))
     print(web3.is_connected())
 
-    contract_address = Web3.to_checksum_address('0x5fbdb2315678afecb367f032d93f642f64180aa3')
+    contract_address = Web3.to_checksum_address('0xe7f1725e7734ce288f8367e1bb143e90bb3f0512')
     # Load the ABI from the compiled contract JSON
-    with open('/home/dwi/Vault_ERC4626/backend/artifacts/contracts/ERC4626Vault.sol/ERC4626Vault.json') as f:
+    with open('/home/dwi/Hackaton_kiln/backend/artifacts/contracts/ERC4626Vault.sol/ERC4626Vault.json') as f:
         contract_data = json.load(f)
         abi = contract_data['abi']
 
     # Create the contract instance
     contract = web3.eth.contract(address=contract_address, abi=abi)
 
-    result = contract.functions.getRatio().call() #re,placer function name par la methode a appeler
+    result = contract.functions.getVault().call() #re,placer function name par la methode a appeler
+    print(result)
+    contract.functions.reBalance(0, 1, '0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199').call() #re,placer function name par la methode a appeler
+    result = contract.functions.getVault().call() #re,placer function name par la methode a appeler
     print(result)
 
     #url = "https://api.testnet.kiln.fi/v1/defi/network-stats?vaults=eth_0xDea01Fc5289aF2c440Ca65582e3C44767C0fcf08,eth_0xf3a9A790f84B2E0301069BE589fc976Cf3eB5661"

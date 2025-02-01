@@ -64,20 +64,34 @@ contract ERC4626Vault is ERC4626 {
 
     function reBalance(uint256 _newRatioVault1, uint256 _newRatioVault2,address _addressUSDC) external {
 
-        ratios[0] = _newRatioVault1;
-        ratios[1] = _newRatioVault2;
+        uint256 _diffRation;
 
-        uint256 _amountForVault1 = balanceMegaVault * ratios[0];
-        uint256 _amountForVault2 = balanceMegaVault * ratios[1];
-
-        IERC20(_addressUSDC).transferFrom(balanceTonVault, vaults[0], _amountForVault1);
-        IERC20(_addressUSDC).transferFrom(balanceTonVault, vaults[1], _amountForVault2);
-
-        emit ReBalanced (_addressUSDC);
+        if (_newRatioVault1 > _newRatioVault2) {
+            _diffRation = ratios[0] - _newRatioVault2;
+            uint256 _amountWithDrawt = balanceMegaVault * ratios[0] * _diffRation;
+            IERC20(_addressUSDC).transferFrom(vaults[0], balanceTonVault, _amountWithDrawt);
+            IERC20(_addressUSDC).transferFrom(balanceTonVault, vaults[1], _amountWithDrawt);
+            ratios[0] = _newRatioVault1;
+            ratios[1] = _newRatioVault2;
+            emit ReBalanced (_addressUSDC);
+        }
+        else if (_newRatioVault2 > _newRatioVault1) {
+            _diffRation = ratios[1] - _newRatioVault1;
+            uint256 _amountWithDrawt = balanceMegaVault * ratios[1] * _diffRation;
+            IERC20(_addressUSDC).transferFrom(vaults[1], balanceTonVault, _amountWithDrawt);
+            IERC20(_addressUSDC).transferFrom(balanceTonVault, vaults[0], _amountWithDrawt);
+            ratios[0] = _newRatioVault1;
+            ratios[1] = _newRatioVault2;
+            emit ReBalanced (_addressUSDC);
+        }
+        else {
+            emit ReBalanced (_addressUSDC);
+        }
     }
 
-    function getRatio() public view returns (uint ratioUn, uint ratioDeux) {
-        ratioUn = ratios[0];
-        ratioDeux = ratios[1];
+    function getVault() public view returns (uint ratioI, uint ratioII, uint balance) {
+        ratioI = ratios[0];
+        ratioII = ratios[1];
+        balance = balanceMegaVault;
     }
 }
