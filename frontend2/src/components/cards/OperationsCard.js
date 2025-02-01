@@ -4,7 +4,6 @@ import * as icons from '@fortawesome/free-solid-svg-icons';
 import avatar from '@/img/jpg/avatar.jpg';
 
 export const OperationsCard = ({data}) => {
-    console.log(data)
     return (
         <div className="w-72 h-40 bg-gray-800 border border-slate-500 rounded-lg">
             <div className="flex flex-row justify-between h-full">

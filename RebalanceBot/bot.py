@@ -19,7 +19,7 @@ def main():
     web3 = Web3(Web3.HTTPProvider('http://localhost:8545/'))
     print(web3.is_connected())
 
-    contract_address = Web3.to_checksum_address('0xe7f1725e7734ce288f8367e1bb143e90bb3f0512')
+    contract_address = Web3.to_checksum_address('0xdc64a140aa3e981100a9beca4e685f962f0cf6c9')
     # Load the ABI from the compiled contract JSON
     with open('/home/dwi/Hackaton_kiln/backend/artifacts/contracts/ERC4626Vault.sol/ERC4626Vault.json') as f:
         contract_data = json.load(f)

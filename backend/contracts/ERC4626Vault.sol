@@ -25,6 +25,7 @@ contract ERC4626Vault is ERC4626 {
 
     mapping (address => Users[] ) private users;
     uint256 balanceMegaVault;
+    uint256 first;
     address[2] vaults;
     uint256[2] ratios;
 
@@ -40,6 +41,7 @@ contract ERC4626Vault is ERC4626 {
         vaults[1] = _addressVault2;
         ratios[0] = _ratioVault1;
         ratios[1] = _ratioVault2;
+        first = 1;
     }
 
     function depositUSDCMegaVault(uint256 _amount, address _addressUSDC) external {
@@ -65,8 +67,17 @@ contract ERC4626Vault is ERC4626 {
     function reBalance(uint256 _newRatioVault1, uint256 _newRatioVault2,address _addressUSDC) external {
 
         uint256 _diffRation;
-
-        if (_newRatioVault1 > _newRatioVault2) {
+        
+        if (first == 1)
+        {
+            uint256 _amountVault1 = balanceMegaVault * _newRatioVault1;
+            uint256 _amountVault2 = balanceMegaVault * _newRatioVault2;
+            //IERC4626(vaults[0]).deposit(_amountVault1, balanceTonVault); // depose le vault de kiln recupere le token de share.
+            IERC20(_addressUSDC).transferFrom(balanceTonVault, vaults[1], _amountVault2);
+            first = 0;
+            emit ReBalanced (_addressUSDC);
+        }
+        else if (_newRatioVault1 > _newRatioVault2) {
             _diffRation = ratios[0] - _newRatioVault2;
             uint256 _amountWithDrawt = balanceMegaVault * ratios[0] * _diffRation;
             IERC20(_addressUSDC).transferFrom(vaults[0], balanceTonVault, _amountWithDrawt);
