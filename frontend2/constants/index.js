@@ -1,2 +1,2 @@
-export const contractERC4626Address = ""
-export const contractERC4626ABI = ""
+export const contractERC4626Address = "0x5fbdb2315678afecb367f032d93f642f64180aa3"
+export const contractERC4626ABI = "/home/dwi/Hackaton_kiln/backend/artifacts/contracts/ERC4626Vault.sol/ERC4626Vault.json"
