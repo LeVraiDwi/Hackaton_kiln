@@ -66,38 +66,16 @@ contract ERC4626Vault is ERC4626 {
 
     function reBalance(uint256 _newRatioVault1, uint256 _newRatioVault2,address _addressUSDC) external {
 
-        uint256 _diffRation;
-        
-        if (first == 1)
-        {
-            uint256 _amountVault1 = balanceMegaVault * _newRatioVault1;
-            uint256 _amountVault2 = balanceMegaVault * _newRatioVault2;
-            //IERC4626(vaults[0]).deposit(_amountVault1, balanceTonVault); // depose le vault de kiln recupere le token de share.
-            IERC20(_addressUSDC).transferFrom(balanceTonVault, vaults[1], _amountVault2);
-            first = 0;
-            emit ReBalanced (_addressUSDC);
-        }
-        else if (_newRatioVault1 > _newRatioVault2) {
-            _diffRation = ratios[0] - _newRatioVault2;
-            uint256 _amountWithDrawt = balanceMegaVault * ratios[0] * _diffRation;
-            IERC20(_addressUSDC).transferFrom(vaults[0], balanceTonVault, _amountWithDrawt);
-            IERC20(_addressUSDC).transferFrom(balanceTonVault, vaults[1], _amountWithDrawt);
-            ratios[0] = _newRatioVault1;
-            ratios[1] = _newRatioVault2;
-            emit ReBalanced (_addressUSDC);
-        }
-        else if (_newRatioVault2 > _newRatioVault1) {
-            _diffRation = ratios[1] - _newRatioVault1;
-            uint256 _amountWithDrawt = balanceMegaVault * ratios[1] * _diffRation;
-            IERC20(_addressUSDC).transferFrom(vaults[1], balanceTonVault, _amountWithDrawt);
-            IERC20(_addressUSDC).transferFrom(balanceTonVault, vaults[0], _amountWithDrawt);
-            ratios[0] = _newRatioVault1;
-            ratios[1] = _newRatioVault2;
-            emit ReBalanced (_addressUSDC);
-        }
-        else {
-            emit ReBalanced (_addressUSDC);
-        }
+        ratios[0] = _newRatioVault1;
+        ratios[1] = _newRatioVault2;
+
+        uint256 _amountForVault1 = balanceMegaVault * ratios[0];
+        uint256 _amountForVault2 = balanceMegaVault * ratios[1];
+
+        IERC20(_addressUSDC).transferFrom(balanceTonVault, vaults[0], _amountForVault1);
+        IERC20(_addressUSDC).transferFrom(balanceTonVault, vaults[1], _amountForVault2);
+
+        emit ReBalanced (_addressUSDC);
     }
 
     function getVault() public view returns (uint ratioI, uint ratioII, uint balance) {

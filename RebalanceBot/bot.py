@@ -19,7 +19,7 @@ def main():
     web3 = Web3(Web3.HTTPProvider('http://localhost:8545/'))
     print(web3.is_connected())
 
-    contract_address = Web3.to_checksum_address('0xdc64a140aa3e981100a9beca4e685f962f0cf6c9')
+    contract_address = Web3.to_checksum_address('0x5fbdb2315678afecb367f032d93f642f64180aa3')
     # Load the ABI from the compiled contract JSON
     with open('/home/dwi/Hackaton_kiln/backend/artifacts/contracts/ERC4626Vault.sol/ERC4626Vault.json') as f:
         contract_data = json.load(f)
@@ -30,7 +30,8 @@ def main():
 
     result = contract.functions.getVault().call() #re,placer function name par la methode a appeler
     print(result)
-    contract.functions.reBalance(0, 1, '0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199').call() #re,placer function name par la methode a appeler
+    #ret = contract.functions.reBalance(0, 1, '0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199').call() #re,placer function name par la methode a appeler
+    #print(ret)
     result = contract.functions.getVault().call() #re,placer function name par la methode a appeler
     print(result)
 
